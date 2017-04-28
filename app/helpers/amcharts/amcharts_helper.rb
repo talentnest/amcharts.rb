@@ -5,7 +5,7 @@ module AmCharts
       @loaded_amchart_files ||= { js: [], css: []}
 
       js_files = ['amcharts', "amcharts/#{chart.type}"]
-      js_files << "amcharts/lang/#{chart.language}" if chart.language?
+      js_files << "amcharts/lang/#{chart.language}" if chart.language? && chart.language != 'en' # English is default already
 
       css_files = ['amcharts']
 
