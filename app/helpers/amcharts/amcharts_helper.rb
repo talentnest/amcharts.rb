@@ -10,10 +10,30 @@ module AmCharts
       css_files = ['amcharts']
 
       if chart.export?
-        js_files << 'amcharts/plugins/export/export.min'
-        js_files << "amcharts/plugins/export/lang/#{chart.language}" if chart.language?
+        chart.export.settings.libs = { autoLoad: false } # Turn off automatic loading of libraries
 
-        css_files << 'amcharts/plugins/export/export'
+        export_dir = 'amcharts/plugins/export'
+
+        # For any export
+        js_files << "#{export_dir}/export.min"
+        js_files << "#{export_dir}/libs/fabric.js/fabric.min"
+
+        # Used to offer download files
+        js_files << "#{export_dir}/libs/FileSaver.js/FileSaver.min"
+
+        # For PDF format
+        js_files << "#{export_dir}/libs/pdfmake/pdfmake"
+        js_files << "#{export_dir}/libs/pdfmake/vfs_fonts"
+
+        # For XLSX format
+        js_files << "#{export_dir}/libs/jszip/jszip.min"
+        js_files << "#{export_dir}/libs/xlsx/xlsx"
+
+        # Language support
+        js_files << "#{export_dir}/lang/#{chart.language}" if chart.language?
+
+        # CSS
+        css_files << "#{export_dir}/export"
       end
 
       js_files -= @loaded_amchart_files[:js]
